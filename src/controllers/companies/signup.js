@@ -1,10 +1,10 @@
 const knex = require('../../database/dbConnection');
 const bcrypt = require('bcrypt');
 const signupSchema = require('../../schemas/signupSchema');
-const { default: axios } = require('axios');
+const axios = require('axios');
 
 const signup = async (req, res) => {
-  const { cnpj, login, password } = req.body;
+  const { cnpj, login, senha } = req.body;
 
   try {
     await signupSchema.validate(req.body);
@@ -30,7 +30,7 @@ const signup = async (req, res) => {
 
     const companyInsert = await knex('empresas').insert(companyInfo);
 
-    const encryptedPassword = await bcrypt.hash(password, 10);
+    const encryptedPassword = await bcrypt.hash(senha, 10);
     await knex('usuarios').insert({
       login,
       senha: encryptedPassword,
@@ -54,7 +54,7 @@ const signup = async (req, res) => {
 
     return res.status(200).json('Empresa cadastrada com sucesso.');
   } catch (error) {
-    return res.status(400).json('Erro ao cadastrar empresa.');
+    return res.status(400).json(error.message);
   }
 };
 
