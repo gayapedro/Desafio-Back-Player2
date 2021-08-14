@@ -2,7 +2,6 @@ const knex = require('../../database/dbConnection');
 const bcrypt = require('bcrypt');
 const signinSchema = require('../../schemas/signinSchema');
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
 
 const signin = async (req, res) => {
   const { login, senha } = req.body;
